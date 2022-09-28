@@ -12,7 +12,7 @@ data class Teacher(
     var intelligence: Float
 )
 
-fun calculateProcess(warrior: Warrior, teacher: Teacher, k: Int) {
+fun calculateProcessFirstHalf(warrior: Warrior, teacher: Teacher, k: Int) {
     lock1.lock()
     try {
         for (i in 0 until k) {
@@ -32,6 +32,27 @@ fun calculateProcess(warrior: Warrior, teacher: Teacher, k: Int) {
     }
 }
 
+fun calculateProcessSecondHalf(warrior: Warrior, teacher: Teacher, k: Int) {
+    lock2.lock()
+    try {
+        for (i in 0 until k) {
+            teacher.intelligence = teacher.intelligence + Random.nextInt(2, 11)
+        }
+    } finally {
+        lock2.unlock()
+    }
+
+    lock1.lock()
+    try {
+        for (i in 0 until k) {
+            warrior.attack = warrior.attack + Random.nextInt(10, 15)
+        }
+    } finally {
+        lock1.unlock()
+    }
+}
+
+
 fun main() {
     val startTime = System.currentTimeMillis()
 
@@ -46,9 +67,9 @@ fun main() {
     val times = N - 1
     for (i in 0 until times) {
         val thread = if (i >= (N / 2) - 1) {
-            Thread { calculateProcess(warrior, teacher, k1) }
+            Thread { calculateProcessFirstHalf(warrior, teacher, k1) }
         } else {
-            Thread { calculateProcess(warrior, teacher, k2) }
+            Thread { calculateProcessSecondHalf(warrior, teacher, k2) }
         }
         threads.add(thread)
     }
