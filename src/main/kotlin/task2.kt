@@ -14,16 +14,22 @@ data class Teacher(
 
 fun calculateProcess(warrior: Warrior, teacher: Teacher, k: Int) {
     lock1.lock()
-    for (i in 0 until k) {
-        warrior.attack = warrior.attack + Random.nextInt(10, 15)
+    try {
+        for (i in 0 until k) {
+            warrior.attack = warrior.attack + Random.nextInt(10, 15)
+        }
+    } finally {
+        lock1.unlock()
     }
-    lock1.unlock()
 
     lock2.lock()
-    for (i in 0 until k) {
-        teacher.intelligence = teacher.intelligence + Random.nextInt(2, 11)
+    try {
+        for (i in 0 until k) {
+            teacher.intelligence = teacher.intelligence + Random.nextInt(2, 11)
+        }
+    } finally {
+        lock2.unlock()
     }
-    lock2.unlock()
 }
 
 fun main() {
