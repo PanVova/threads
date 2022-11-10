@@ -4,11 +4,14 @@ from mpi4py import MPI
 import numpy as np
 from numpy import ndarray
 
+
 def monteCarloMethod(array):
     # transpose method for array in numpy library
     # then we calculate our part of array squared random x,y and taking root
     # of it and check when the value will be lower or equal to 1
-    circlePoints = np.count_nonzero((pow(array.T[0], 2) + pow(array.T[1], 2)) ** 0.5 <= 1)
+    x = pow(array.T[0], 2)
+    y = pow(array.T[1], 2)
+    circlePoints = np.count_nonzero((x + y) ** 0.5 <= 1)
     squarePoints = len(array)
     pi = (circlePoints / squarePoints) * 4
     return pi
