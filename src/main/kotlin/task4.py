@@ -11,7 +11,7 @@ def monteCarloMethod(array):
     # of it and check when the value will be lower or equal to 1
     x = pow(array.T[0], 2)
     y = pow(array.T[1], 2)
-    circlePoints = np.count_nonzero((x + y) ** 0.5 <= 1)
+    circlePoints = np.count_nonzero((x + y) <= 1)
     squarePoints = len(array)
     pi = (circlePoints / squarePoints) * 4
     return pi
